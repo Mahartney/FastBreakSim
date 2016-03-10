@@ -62,7 +62,7 @@ Rails.application.configure do
 
   # Ignore bad email addresses and do not raise email delivery errors.
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
-  
+
   config.action_mailer.raise_delivery_errors = true
   config.action_mailer.delivery_method = :smtp
   host = '<your heroku app>.herokuapp.com'
@@ -93,7 +93,6 @@ Rails.application.configure do
   config.force_ssl = true
 
   Fastbreaksim::Application.configure do
-  config.react.variant = :production
-  config.react.addons = true
+
   end
 end

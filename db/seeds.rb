@@ -7,7 +7,7 @@ User.create!(name:  "Example User",
              activated_at: Time.zone.now)
 
 99.times do |n|
-  name  = Faker::Name.name
+  name  = Faker::Commerce.color
   email = "example-#{n+1}@railstutorial.org"
   password = "password"
   User.create!(name:  name,
@@ -16,4 +16,9 @@ User.create!(name:  "Example User",
               password_confirmation: password,
               activated: true,
               activated_at: Time.zone.now)
+end
+
+2.times do |league|
+  name = Faker::Name.name
+  League.create!(name: name)
 end

@@ -1,0 +1,16 @@
+
+<ul class="nav nav-tabs nav-stacked col-md-2">
+  <% @leagues.each do |league| %>
+    <li><a href="#tab_<%=league.id%>" data-toggle="tab"><%=league.name%></a></li>
+  <% end %>
+</ul>
+
+
+
+<div class="tab-content col-md-10">
+  <% @leagues.each do |league| %>
+    <div class="tab-pane" id="tab_<%=league.id%>">
+      <%= render partial: 'admin/leagues/league', object: league %>
+    </div>
+  <% end %>
+</div>
