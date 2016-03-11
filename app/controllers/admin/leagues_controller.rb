@@ -1,6 +1,7 @@
 class Admin::LeaguesController < AdminController
   before_action :admin_user
 
+
   def index
     @leagues = League.paginate(page: params[:page])
     if params[:search]
