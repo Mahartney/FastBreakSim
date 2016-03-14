@@ -6,6 +6,11 @@ class Admin::ConferencesController < AdminController
   def create
     @league = League.find(params[:league_id])
     @conference = @league.conferences.create(name: params[:name])
-    redirect_to :back
+
+    if request.xhr?
+      render :json => @league.conferences
+    else
+      redirect_to :back
+    end
   end
 end
