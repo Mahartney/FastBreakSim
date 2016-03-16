@@ -1,9 +1,9 @@
 class Admin::LeaguesController < AdminController
   before_action :admin_user
 
-
   def index
     @leagues = League.paginate(page: params[:page])
+    @conferences =Conference.all
     if params[:search]
       @leagues = League.search(params[:search]).order("created_at DESC")
     else
@@ -13,7 +13,12 @@ class Admin::LeaguesController < AdminController
 
   def create
     @league = League.create(name: params[:name])
-    redirect_to admin_index_path
+
+    if request.xhr?
+      render :json => League.all
+    else
+      redirect_to :back
+    end
   end
 
   def destroy

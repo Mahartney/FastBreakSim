@@ -1,8 +1,0 @@
-<div class="col-md-6">
-  <h2><%=league.name%></h2>
-  <%= react_component('AddConference',
-                      {league: league,
-                      createConferencePath: admin_league_conferences_path(league),
-                      conferences: league.conferences
-                        }) %>
-</div>

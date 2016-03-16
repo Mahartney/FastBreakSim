@@ -13,4 +13,17 @@ class Admin::ConferencesController < AdminController
       redirect_to :back
     end
   end
+
+  def destroy
+    @league = League.find(params[:league_id])
+    @conference = Conference.find(params[:id])
+    @conference.delete()
+
+    if request.xhr?
+      render :json => @league.conferences
+    else
+      redirect_to :back
+    end
+
+  end
 end

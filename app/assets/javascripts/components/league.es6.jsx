@@ -2,38 +2,45 @@ class AddConference extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      addConferenceInput: '',
-      conferences: this.props.conferences
+      conferences: this.props.conferences,
+      league: this.props.league
     }
-  }
-
-  handleUserInput(addConferenceInput) {
-    this.setState({addConferenceInput: addConferenceInput});
   }
 
   handleConferenceSubmit(conference) {
     $.ajax({
-      url: this.props.createConferencePath,
+      url: '/admin/leagues/'+this.state.league.id+'/conferences',
       dataType: 'json',
       type: 'POST',
       data: conference,
-      success: function ( conference ) {
-        console.dir(conference)
-        this.setState({conferences: conference});
+      success: function ( conferences ) {
+        this.setState({conferences: conferences});
+      }.bind(this)
+    });
+  }
+
+  handleConferenceDelete(conference) {
+    $.ajax({
+      url: '/admin/leagues/'+conference.league_id+'/conferences/'+conference.id,
+      dataType: 'json',
+      type: 'DELETE',
+      data: this.props.conference,
+      success: function ( conferences ) {
+        this.setState({conferences: conferences});
       }.bind(this)
     });
   }
 
   render() {
     return (
-      <div>
+      <div className="col-md-8">
+        <h2>{this.props.league.name}</h2>
         <AddConferenceForm
-          addConferenceInput={this.state.addConferenceInput}
-          onUserInput={this.handleUserInput.bind(this)}
           onConferenceSubmit={this.handleConferenceSubmit.bind(this)}
         />
         <ConferenceList
         data={this.state.conferences}
+        onConferenceDelete={this.handleConferenceDelete.bind(this)}
         />
       </div>
     );
@@ -41,19 +48,13 @@ class AddConference extends React.Component {
 }
 
 class AddConferenceForm extends React.Component {
-  handleChange() {
-    this.props.onUserInput(
-      // ref is like the id
-      this.refs.addConferenceTextInput.value
-      );
-    }
 
   handleSubmit(e) {
     e.preventDefault();
     var conferenceName = this.refs.addConferenceTextInput.value.trim();
+    this.refs.addConferenceTextInput.value=""
     this.props.onConferenceSubmit({name: conferenceName})
-    this.refs.addConferenceTextInput.value = ''
-    return
+
   }
 
 	render() {
@@ -65,13 +66,11 @@ class AddConferenceForm extends React.Component {
           type="text"
           placeholder="Conference Name"
           ref="addConferenceTextInput"
-          value= {this.props.addConferenceInput}
-          onChange= {this.handleChange.bind(this)}
         />
         <input
           type="submit"
           value="Add New Conference"
-          />
+        />
       </form>
     );
 	}
@@ -81,7 +80,12 @@ class ConferenceList extends React.Component {
   render(){
     var conferenceNodes = this.props.data.map((conference) => {
       return (
-        <Conference name={conference.name} key={conference.id} />
+        <div key={conference.id}>
+          <Conference
+            conference={conference}
+            onConferenceDelete={this.props.onConferenceDelete.bind(this)}
+          />
+        </div>
       )
     });
     return (
@@ -93,10 +97,23 @@ class ConferenceList extends React.Component {
 }
 
 class Conference extends React.Component {
+  handleDelete(e) {
+    e.preventDefault();
+    this.props.onConferenceDelete(this.props.conference)
+    return
+  }
+
   render(){
     return (
       <div className='Conference'>
-        <h2>{this.props.name}</h2>
+        <h2>{this.props.conference.name}</h2>
+        <form
+          onSubmit={this.handleDelete.bind(this)}>
+          <input
+            type='submit'
+            value='Delete Conference'
+            />
+        </form>
       </div>
     )
   }
