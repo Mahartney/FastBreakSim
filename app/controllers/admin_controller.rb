@@ -1,11 +1,13 @@
 class AdminController < ApplicationController
   before_action :admin_user
 
-
   def index
-    @league = League.new
-    @leagues = League.all
-    @conferences = Conference.all
+    @data = {
+      leagues: League.all,
+      conferences: Conference.all,
+      teams: Team.all,
+      players: Player.all
+    }
   end
 
   private

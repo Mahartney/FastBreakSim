@@ -7,8 +7,9 @@ class Admin::ConferencesController < AdminController
     @league = League.find(params[:league_id])
     @conference = @league.conferences.create(name: params[:name])
 
+
     if request.xhr?
-      render :json => @league.conferences
+      render :json => {type: 'conferences', data: @conference}
     else
       redirect_to :back
     end
@@ -17,10 +18,17 @@ class Admin::ConferencesController < AdminController
   def destroy
     @league = League.find(params[:league_id])
     @conference = Conference.find(params[:id])
-    @conference.delete()
+    @conference.destroy
 
+    @data = {
+      leagues: League.all,
+      conferences: Conference.all,
+      teams: Team.all,
+      players: Player.all
+    }
+    
     if request.xhr?
-      render :json => @league.conferences
+      render :json => {data: @data}
     else
       redirect_to :back
     end

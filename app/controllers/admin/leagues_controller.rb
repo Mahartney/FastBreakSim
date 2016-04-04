@@ -12,20 +12,32 @@ class Admin::LeaguesController < AdminController
   end
 
   def create
-    @league = League.create(name: params[:name])
+    @league = League.new(name: params[:name])
+    @league.save()
 
     if request.xhr?
-      render :json => League.all
+      render :json => {type: 'leagues', data: @league }
     else
       redirect_to :back
     end
   end
 
   def destroy
-    League.find(params[:id]).destroy
-    flash[:success] = "Team Deleted"
-    redirect_to admin_index_path
+    League.find(params[:id]).destroy!
+    @data = {
+      leagues: League.all,
+      conferences: Conference.all,
+      teams: Team.all,
+      players: Player.all
+    }
+
+    if request.xhr?
+      render :json => {data: @data}
+    else
+      redirect_to :back
+    end
   end
+
 
 
 end

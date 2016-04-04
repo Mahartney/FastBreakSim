@@ -19,22 +19,18 @@ Rails.application.routes.draw do
 
   resources :leagues, only: [:show] do
     resources :conferences, only: [:show] do
-      resources :divisions, only: [:show] do
         resources :teams, only: [:new, :create, :edit, :update] do
           resources :players, only: [:new, :edit, :update, :destroy] do
           end
         end
-      end
     end
   end
 
   namespace :admin do
     resources :leagues do
       resources :conferences do
-        resources :divisions do
-          resources :teams do
-            resources :players do
-            end
+        resources :teams do
+          resources :players do
           end
         end
       end

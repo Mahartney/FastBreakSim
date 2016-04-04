@@ -1,5 +1,5 @@
 class Conference < ActiveRecord::Base
   belongs_to :league
-  has_many :divisions
-  
+  has_many :teams, :dependent => :destroy
+
 end
