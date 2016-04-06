@@ -6,7 +6,8 @@ class AdminController < ApplicationController
       leagues: League.all,
       conferences: Conference.all,
       teams: Team.all,
-      players: Player.all
+      players: Player.all,
+      users: User.all
     }
   end
 

@@ -21,7 +21,10 @@ class AdminLandingPage extends React.Component{
       return team.name.indexOf(filterText) !== -1
     }.bind(this))
     filteredData.players = $.grep(this.state.data.players, function(player){
-      return player.name.indexOf(filterText) !== -1
+      return player.first_name.indexOf(filterText) !== -1 || player.last_name.indexOf(filterText) !== -1
+    }.bind(this))
+    filteredData.users = $.grep(this.state.data.users, function(user){
+      return user.name.indexOf(filterText) !== -1
     }.bind(this))
     this.setState({filteredData: filteredData})
   }

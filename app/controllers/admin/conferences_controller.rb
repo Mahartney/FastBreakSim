@@ -24,9 +24,10 @@ class Admin::ConferencesController < AdminController
       leagues: League.all,
       conferences: Conference.all,
       teams: Team.all,
-      players: Player.all
+      players: Player.all,
+      users: User.all
     }
-    
+
     if request.xhr?
       render :json => {data: @data}
     else

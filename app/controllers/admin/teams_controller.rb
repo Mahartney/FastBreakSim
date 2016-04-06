@@ -10,4 +10,24 @@ class Admin::TeamsController < AdminController
       redirect_to :back
     end
   end
+
+  def destroy
+    Team.find(params[:id]).destroy!
+
+    @data = {
+      leagues: League.all,
+      conferences: Conference.all,
+      teams: Team.all,
+      players: Player.all,
+      users: User.all
+    }
+
+    if request.xhr?
+      render :json => {data: @data}
+    else
+      redirect_to :back
+    end
+  end
+
+
 end

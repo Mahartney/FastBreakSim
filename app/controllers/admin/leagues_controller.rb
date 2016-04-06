@@ -24,11 +24,13 @@ class Admin::LeaguesController < AdminController
 
   def destroy
     League.find(params[:id]).destroy!
+
     @data = {
       leagues: League.all,
       conferences: Conference.all,
       teams: Team.all,
-      players: Player.all
+      players: Player.all,
+      users: User.all
     }
 
     if request.xhr?
